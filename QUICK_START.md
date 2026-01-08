@@ -37,7 +37,38 @@ The application will be available at `http://localhost:5173`
 
 1. Open your browser to `http://localhost:5173`
 2. You'll see the login page (AuthLayout)
-3. The dashboard route is at `/dashboard`
+3. Login with test credentials (see below)
+4. The dashboard route is at `/dashboard`
+
+## Test Credentials
+
+The application uses **mock authentication** for development. Use any of these credentials to test different roles:
+
+### 👨‍💼 Admin User (Full Access)
+- **Email:** `admin@autorecon.com`
+- **Password:** `password123`
+- **Role:** Administrator
+- **Permissions:** Full access to all modules and features
+
+### 👨‍💻 Reconciler (Operations)
+- **Email:** `reconciler@autorecon.com`
+- **Password:** `password123`
+- **Role:** Reconciliation Specialist
+- **Permissions:** Dashboard, Ingestion, Matching, Exceptions, Reports
+
+### ✅ Approver (Workflow)
+- **Email:** `approver@autorecon.com`
+- **Password:** `password123`
+- **Role:** Approver
+- **Permissions:** Dashboard, Approvals, Settlements, Reports
+
+### 👀 Viewer (Read-Only)
+- **Email:** `viewer@autorecon.com`
+- **Password:** `password123`
+- **Role:** Viewer
+- **Permissions:** Dashboard and Reports (view only)
+
+**MFA Code:** Any 6-digit code (e.g., `123456`) will work for development
 
 ## Available Scripts
 
