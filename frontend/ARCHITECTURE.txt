@@ -1,0 +1,209 @@
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     AutoRecon V2 Frontend Architecture                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                              USER INTERFACE                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                  │
+│  │  Auth Pages  │  │  Dashboard   │  │  Module Pages│                  │
+│  │  - Login     │  │  - KPI Cards │  │  - Ingestion │                  │
+│  │  - MFA       │  │  - Charts    │  │  - Rules     │                  │
+│  │  - Reset Pwd │  │  - Activity  │  │  - Matching  │                  │
+│  └──────────────┘  └──────────────┘  │  - Exceptions│                  │
+│                                       │  - Approvals │                  │
+│                                       │  - Settlement│                  │
+│                                       │  - GL Posting│                  │
+│                                       │  - Reports   │                  │
+│                                       │  - Audit     │                  │
+│                                       │  - Admin     │                  │
+│                                       └──────────────┘                  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          LAYOUT COMPONENTS                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  DashboardLayout                                                  │  │
+│  │  ┌───────────┐  ┌──────────────────────────────────────────────┐│  │
+│  │  │           │  │  TopBar                                        ││  │
+│  │  │           │  │  - User Menu  - Notifications  - Theme Toggle ││  │
+│  │  │  Sidebar  │  └──────────────────────────────────────────────┘│  │
+│  │  │           │  ┌──────────────────────────────────────────────┐│  │
+│  │  │  - Nav    │  │                                                ││  │
+│  │  │  - Admin  │  │  Main Content Area (Pages)                    ││  │
+│  │  │           │  │                                                ││  │
+│  │  └───────────┘  └──────────────────────────────────────────────┘│  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                       COMPONENT LIBRARY (Shadcn UI)                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐    │
+│  │  Button  │ │   Card   │ │  Input   │ │  Badge   │ │ Dropdown │    │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘    │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐    │
+│  │  Avatar  │ │  Label   │ │  Toast   │ │ScrollArea│ │   Tabs   │    │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘    │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         STATE MANAGEMENT (Zustand)                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────┐  ┌─────────────────┐  ┌──────────────┐              │
+│  │  authStore   │  │notificationStore│  │   uiStore    │              │
+│  │  - user      │  │  - notifications│  │  - sidebar   │              │
+│  │  - token     │  │  - unreadCount  │  │  - filters   │              │
+│  │  - isAuth    │  │  - addNotif     │  │  - settings  │              │
+│  └──────────────┘  └─────────────────┘  └──────────────┘              │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DATA FETCHING (React Query)                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  useQuery / useMutation / useInfiniteQuery                               │
+│  - Caching  - Refetching  - Optimistic Updates  - Error Handling        │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          SERVICE LAYER                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │ authService  │  │dashboardSvc  │  │ingestionSvc  │                 │
+│  │ - login()    │  │ - getStats() │  │ - uploadFile │                 │
+│  │ - logout()   │  │ - getCharts()│  │ - getJobs()  │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+│                                                                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                 │
+│  │  ruleService │  │ exceptionSvc │  │  (more...)   │                 │
+│  │ - getRules() │  │ - getExcep() │  │              │                 │
+│  │ - saveRule() │  │ - addComment │  │              │                 │
+│  └──────────────┘  └──────────────┘  └──────────────┘                 │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         API CLIENT (Axios)                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  Request Interceptor                                              │  │
+│  │  - Add auth token                                                 │  │
+│  │  - Set headers                                                    │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                                                                          │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  HTTP Methods                                                     │  │
+│  │  GET | POST | PUT | PATCH | DELETE | UPLOAD                      │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                                                                          │
+│  ┌──────────────────────────────────────────────────────────────────┐  │
+│  │  Response Interceptor                                             │  │
+│  │  - Handle 401 (redirect to login)                                │  │
+│  │  - Handle 403 (show error)                                        │  │
+│  │  - Handle 500 (show toast)                                        │  │
+│  └──────────────────────────────────────────────────────────────────┘  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          DJANGO REST API                                 │
+│                        (Backend - To Be Built)                           │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+                            DATA FLOW EXAMPLE
+═══════════════════════════════════════════════════════════════════════════
+
+User Action: "Upload File"
+     │
+     ▼
+1. IngestionUploadPage.tsx
+     │  - User selects file
+     │  - Clicks upload button
+     ▼
+2. ingestionService.uploadFile()
+     │  - Prepares FormData
+     │  - Calls API client
+     ▼
+3. apiClient.upload()
+     │  - Adds auth token (interceptor)
+     │  - Sends POST /api/v1/ingestion/upload
+     │  - Tracks upload progress
+     ▼
+4. Django Backend (API)
+     │  - Validates file
+     │  - Creates ingestion job
+     │  - Returns job object
+     ▼
+5. Response flows back
+     │  - React Query caches result
+     │  - Toast notification shown
+     │  - Navigate to list page
+     ▼
+6. IngestionListPage.tsx
+     │  - Displays new job
+     │  - Auto-refetches periodically
+
+
+═══════════════════════════════════════════════════════════════════════════
+                          ROUTING STRUCTURE
+═══════════════════════════════════════════════════════════════════════════
+
+/auth
+  ├── /login              → LoginPage
+  ├── /mfa                → MFAPage
+  └── /forgot-password    → ForgotPasswordPage
+
+/ (Protected - DashboardLayout)
+  ├── /dashboard          → DashboardPage
+  ├── /ingestion
+  │   ├── /               → IngestionListPage
+  │   └── /upload         → IngestionUploadPage
+  ├── /rules
+  │   ├── /               → RuleEngineListPage
+  │   ├── /new            → RuleEditorPage
+  │   └── /:ruleId/edit   → RuleEditorPage
+  ├── /matching
+  │   ├── /               → MatchingDashboardPage
+  │   ├── /matched        → MatchedRecordsPage
+  │   └── /unmatched      → UnmatchedRecordsPage
+  ├── /exceptions
+  │   ├── /               → ExceptionsQueuePage
+  │   └── /:exceptionId   → ExceptionDetailPage
+  ├── /approvals          → ApprovalsPage
+  ├── /settlement
+  │   ├── /               → SettlementDashboardPage
+  │   └── /batches        → SettlementBatchesPage
+  ├── /gl-posting
+  │   ├── /               → GLPostingListPage
+  │   └── /:journalId     → GLJournalDetailPage
+  ├── /reports
+  │   ├── /               → ReportsListPage
+  │   └── /scheduler      → ReportSchedulerPage
+  ├── /audit              → AuditLogPage
+  └── /admin
+      ├── /users          → UsersPage
+      ├── /roles          → RolesPage
+      ├── /partners       → PartnersPage
+      └── /system         → SystemConfigPage
