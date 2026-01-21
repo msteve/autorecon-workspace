@@ -19,13 +19,14 @@ import MatchedRecordsPage from '@/pages/matching/MatchedRecordsPage';
 import UnmatchedRecordsPage from '@/pages/matching/UnmatchedRecordsPage';
 import ExceptionsQueuePage from '@/pages/exceptions/ExceptionsQueuePage';
 import ExceptionDetailPage from '@/pages/exceptions/ExceptionDetailPage';
-import ApprovalsPage from '@/pages/workflow/ApprovalsPage';
-import SettlementDashboardPage from '@/pages/settlement/SettlementDashboardPage';
-import SettlementBatchesPage from '@/pages/settlement/SettlementBatchesPage';
-import GLPostingListPage from '@/pages/gl-posting/GLPostingListPage';
-import GLJournalDetailPage from '@/pages/gl-posting/GLJournalDetailPage';
-import ReportsListPage from '@/pages/reports/ReportsListPage';
-import ReportSchedulerPage from '@/pages/reports/ReportSchedulerPage';
+import ApprovalsInbox from '@/pages/workflow/ApprovalsInbox';
+import ApprovalDetail from '@/pages/workflow/ApprovalDetail';
+import SettlementRunList from '@/pages/settlement/SettlementRunList';
+import SettlementSummary from '@/pages/settlement/SettlementSummary';
+import JournalBatchList from '@/pages/gl-posting/JournalBatchList';
+import JournalBatchDetail from '@/pages/gl-posting/JournalBatchDetail';
+import ReportsList from '@/pages/reports/ReportsList';
+import ReportScheduler from '@/pages/reports/ReportScheduler';
 import AuditLogPage from '@/pages/audit/AuditLogPage';
 import UsersPage from '@/pages/admin/UsersPage';
 import RolesPage from '@/pages/admin/RolesPage';
@@ -86,24 +87,27 @@ const AppRoutes = () => {
         </Route>
 
         {/* Workflow/Approvals */}
-        <Route path="approvals" element={<ApprovalsPage />} />
+        <Route path="approvals">
+          <Route index element={<ApprovalsInbox />} />
+          <Route path=":id" element={<ApprovalDetail />} />
+        </Route>
 
         {/* Settlement */}
         <Route path="settlement">
-          <Route index element={<SettlementDashboardPage />} />
-          <Route path="batches" element={<SettlementBatchesPage />} />
+          <Route index element={<SettlementRunList />} />
+          <Route path=":id" element={<SettlementSummary />} />
         </Route>
 
         {/* GL Posting */}
         <Route path="gl-posting">
-          <Route index element={<GLPostingListPage />} />
-          <Route path=":journalId" element={<GLJournalDetailPage />} />
+          <Route index element={<JournalBatchList />} />
+          <Route path=":batchId" element={<JournalBatchDetail />} />
         </Route>
 
         {/* Reports */}
         <Route path="reports">
-          <Route index element={<ReportsListPage />} />
-          <Route path="scheduler" element={<ReportSchedulerPage />} />
+          <Route index element={<ReportsList />} />
+          <Route path="scheduler" element={<ReportScheduler />} />
         </Route>
 
         {/* Audit Log */}

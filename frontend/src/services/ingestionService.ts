@@ -1,5 +1,11 @@
 import { apiClient } from './apiClient';
 
+// Enable mock data when backend is unavailable
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== 'false';
+if (USE_MOCK_DATA) {
+  console.info('📊 Ingestion Service: Using static mock data (backend unavailable)');
+}
+
 // TypeScript Interfaces
 export interface IngestionJob {
   id: string;

@@ -1,6 +1,12 @@
 import { apiClient } from './apiClient';
 import type { LoginRequest, LoginResponse, MFARequest, User } from '@/types';
 
+// Use static mock data when backend is unavailable
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== 'false';
+if (USE_MOCK_DATA) {
+  console.info('🔐 Auth Service: Using static mock data (backend unavailable)');
+}
+
 // Mock Users for Development
 const mockUsers: User[] = [
   {

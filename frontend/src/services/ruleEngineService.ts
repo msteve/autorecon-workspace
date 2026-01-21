@@ -1,5 +1,11 @@
 import { apiClient } from './apiClient';
 
+// Use static mock data when backend is unavailable
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA !== 'false';
+if (USE_MOCK_DATA) {
+  console.info('📋 Rule Engine Service: Using static mock data (backend unavailable)');
+}
+
 /**
  * Rule status types
  */

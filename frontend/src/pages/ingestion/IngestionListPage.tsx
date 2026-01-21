@@ -75,7 +75,7 @@ const IngestionListPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.items.map((job) => (
+                    {data?.items?.map((job) => (
                       <tr key={job.id} className="border-b">
                         <td className="p-3">
                           <div className="flex items-center gap-2">
@@ -95,7 +95,13 @@ const IngestionListPage = () => {
                           </Button>
                         </td>
                       </tr>
-                    ))}
+                    )) || (
+                      <tr>
+                        <td colSpan={6} className="p-8 text-center text-muted-foreground">
+                          No ingestion jobs found
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
